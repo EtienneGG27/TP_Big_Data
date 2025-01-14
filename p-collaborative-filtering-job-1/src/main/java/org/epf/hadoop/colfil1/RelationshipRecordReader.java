@@ -20,53 +20,39 @@ public class RelationshipRecordReader extends RecordReader<LongWritable, Relatio
 
     @Override
     public boolean nextKeyValue() throws IOException, InterruptedException {
-        // Vérifie s'il reste une ligne à lire
         boolean hasNext = lineRecordReader.nextKeyValue();
-
         if (hasNext) {
-            // Obtient le numéro de ligne
             currentKey.set(lineRecordReader.getCurrentKey().get());
-
-            // Récupère la ligne brute
             String line = lineRecordReader.getCurrentValue().toString();
 
-            // Sépare la relation et le timestamp
-            String[] parts = line.split(",", 2); // Séparation autour de la première virgule
-
-            if (parts.length == 2) {
-                String[] users = parts[0].split("<->"); // Séparation des utilisateurs autour de "<->"
-
+            // Supprime le timestamp et analyse la relation
+            String[] parts = line.split(",", 2);
+            if (parts.length > 0) {
+                String[] users = parts[0].split("<->");
                 if (users.length == 2) {
-                    // Attribue les utilisateurs à l'objet Relationship
                     currentValue.setId1(users[0].trim());
                     currentValue.setId2(users[1].trim());
                 } else {
-                    // Si le format est incorrect, vide les valeurs
                     currentValue.setId1("");
                     currentValue.setId2("");
                 }
-            } else {
-                // Si le format est incorrect, vide les valeurs
-                currentValue.setId1("");
-                currentValue.setId2("");
             }
         }
-
         return hasNext;
     }
 
     @Override
-    public LongWritable getCurrentKey() throws IOException, InterruptedException {
+    public LongWritable getCurrentKey() {
         return currentKey;
     }
 
     @Override
-    public Relationship getCurrentValue() throws IOException, InterruptedException {
+    public Relationship getCurrentValue() {
         return currentValue;
     }
 
     @Override
-    public float getProgress() throws IOException, InterruptedException {
+    public float getProgress() throws IOException {
         return lineRecordReader.getProgress();
     }
 
