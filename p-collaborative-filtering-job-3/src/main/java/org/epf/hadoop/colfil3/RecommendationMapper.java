@@ -25,15 +25,30 @@ public class RecommendationMapper extends Mapper<Object, Text, Text, Text> {
 
         String userA = users[0];
         String userB = users[1];
-        String count = parts[1];
+        String[] details = parts[1].split(",");
+        int commonRelations = Integer.parseInt(details[0]);
+        int isDirect = Integer.parseInt(details[1]);
 
-        // Générer les recommandations bidirectionnelles
-        user.set(userA);
-        recommendation.set(userB + ":" + count);
-        context.write(user, recommendation);
+        // Émettre les recommandations bidirectionnelles
+        if (isDirect == 0) { // Si ce n'est pas une relation directe
+            user.set(userA);
+            recommendation.set(userB + ":" + commonRelations);
+            context.write(user, recommendation);
 
-        user.set(userB);
-        recommendation.set(userA + ":" + count);
-        context.write(user, recommendation);
+            user.set(userB);
+            recommendation.set(userA + ":" + commonRelations);
+            context.write(user, recommendation);
+        }
+
+        // Propager les relations directes avec un marqueur spécial
+        if (isDirect == 1) {
+            user.set(userA);
+            recommendation.set("direct:" + userB);
+            context.write(user, recommendation);
+
+            user.set(userB);
+            recommendation.set("direct:" + userA);
+            context.write(user, recommendation);
+        }
     }
 }

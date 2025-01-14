@@ -10,7 +10,7 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class ColFilJob3 {
     public static void main(String[] args) throws Exception {
         if (args.length != 2) {
-            System.err.println("Usage: ColFil3 <input path> <output path>");
+            System.err.println("Usage: ColFilJob3 <input path> <output path>");
             System.exit(-1);
         }
 
@@ -31,4 +31,5 @@ public class ColFilJob3 {
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
         System.exit(job.waitForCompletion(true) ? 0 : 1);
-    }}
+    }
+}
