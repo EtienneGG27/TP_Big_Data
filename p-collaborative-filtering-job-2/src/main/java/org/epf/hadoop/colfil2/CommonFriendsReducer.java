@@ -15,17 +15,20 @@ public class CommonFriendsReducer extends Reducer<UserPair, Text, Text, Text> {
         Set<String> commonFriends = new HashSet<>();
         boolean isDirectRelation = false;
 
+        // Parcourir les valeurs pour déterminer les relations communes et directes
         for (Text value : values) {
             if (value.toString().equals("direct")) {
-                isDirectRelation = true;
+                isDirectRelation = true; // Relation directe détectée
             } else {
                 commonFriends.add(value.toString());
             }
         }
 
-        if (!isDirectRelation && !commonFriends.isEmpty()) {
-            result.set(String.valueOf(commonFriends.size()));
-            context.write(new Text(key.toString()), result);
-        }
+        // Calcul du nombre de relations communes
+        int commonCount = commonFriends.size();
+
+        // Générer la sortie avec 0 ou 1
+        result.set(commonCount + "," + (isDirectRelation ? "1" : "0"));
+        context.write(new Text(key.toString()), result);
     }
 }
