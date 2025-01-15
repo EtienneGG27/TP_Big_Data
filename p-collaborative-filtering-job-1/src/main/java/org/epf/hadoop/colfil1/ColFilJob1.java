@@ -17,26 +17,20 @@ public class ColFilJob1 {
         Job job = Job.getInstance(conf, "Collaborative Filtering Job 1");
         job.setJarByClass(ColFilJob1.class);
 
-        // Définit le Mapper et le Reducer
         job.setMapperClass(RelationshipMapper.class);
         job.setReducerClass(RelationshipReducer.class);
 
-        // Définit les types des sorties intermédiaires (Mapper)
         job.setMapOutputKeyClass(Text.class);
         job.setMapOutputValueClass(Text.class);
 
-        // Définit les types des sorties finales (Reducer)
         job.setOutputKeyClass(Text.class);
         job.setOutputValueClass(Text.class);
 
-        // Définit le format d'entrée personnalisé
         job.setInputFormatClass(RelationshipInputFormat.class);
 
-        // Définit les chemins d'entrée et de sortie
         FileInputFormat.addInputPath(job, new Path(args[0]));
         FileOutputFormat.setOutputPath(job, new Path(args[1]));
 
-        // Lance le job et attend sa complétion
         System.exit(job.waitForCompletion(true) ? 0 : 1);
     }
 }

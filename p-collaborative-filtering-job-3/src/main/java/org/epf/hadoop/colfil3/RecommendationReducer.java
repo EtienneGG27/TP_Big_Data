@@ -18,26 +18,21 @@ public class RecommendationReducer extends Reducer<Text, Text, Text, Text> {
             int countA = Integer.parseInt(a.split(":")[1]);
             int countB = Integer.parseInt(b.split(":")[1]);
             return Integer.compare(countB, countA); // Ordre décroissant
-        });
-
-        // Séparer les relations directes et les recommandations potentielles
-        for (Text value : values) {
+        })for (Text value : values) {
             String val = value.toString();
             if (val.startsWith("direct:")) {
-                directFriends.add(val.substring(7)); // Extraire l'ID de l'ami direct
+                directFriends.add(val.substring(7));
             } else {
                 recommendations.add(val);
             }
         }
 
-        // Construire la liste des 5 meilleures recommandations
         StringBuilder topRecommendations = new StringBuilder();
         int count = 0;
         while (!recommendations.isEmpty() && count < 5) {
             String rec = recommendations.poll();
             String recommendedUser = rec.split(":")[0];
 
-            // Ignorer les recommandations qui sont déjà des amis directs
             if (!directFriends.contains(recommendedUser)) {
                 if (topRecommendations.length() > 0) {
                     topRecommendations.append(",");

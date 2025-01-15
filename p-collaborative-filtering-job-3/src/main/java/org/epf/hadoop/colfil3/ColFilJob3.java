@@ -10,12 +10,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class ColFilJob3 {
     public static void main(String[] args) throws Exception {
         if (args.length != 2) {
-            System.err.println("Usage: ColFilJob3 <input path> <output path>");
             System.exit(-1);
         }
 
         Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "Job 3: Recommendations");
+        Job job = Job.getInstance(conf, "Job 3: ");
 
         job.setJarByClass(ColFilJob3.class);
         job.setMapperClass(RecommendationMapper.class);

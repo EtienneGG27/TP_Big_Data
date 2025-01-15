@@ -25,7 +25,7 @@ public class RelationshipRecordReader extends RecordReader<LongWritable, Relatio
             currentKey.set(lineRecordReader.getCurrentKey().get());
             String line = lineRecordReader.getCurrentValue().toString();
 
-            // Supprime le timestamp et analyse la relation
+            // Supprime le timestamp
             String[] parts = line.split(",", 2);
             if (parts.length > 0) {
                 String[] users = parts[0].split("<->");

@@ -13,12 +13,10 @@ public class RelationshipMapper extends Mapper<LongWritable, Relationship, Text,
     @Override
     protected void map(LongWritable key, Relationship value, Context context) throws IOException, InterruptedException {
         if (value != null) {
-            // Émet chaque relation (directe)
             user.set(value.getId1());
             friend.set(value.getId2());
             context.write(user, friend);
 
-            // Émet la relation inverse
             user.set(value.getId2());
             friend.set(value.getId1());
             context.write(user, friend);

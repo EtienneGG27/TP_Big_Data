@@ -10,12 +10,11 @@ import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 public class ColFilJob2 {
     public static void main(String[] args) throws Exception {
         if (args.length != 2) {
-            System.err.println("Usage: ColFilJob2 <input path> <output path>");
             System.exit(-1);
         }
 
         Configuration conf = new Configuration();
-        Job job = Job.getInstance(conf, "Job 2: Common Relations with Direct Relation Indicator");
+        Job job = Job.getInstance(conf, "Job 2:");
 
         job.setJarByClass(ColFilJob2.class);
         job.setMapperClass(CommonFriendsMapper.class);

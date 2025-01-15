@@ -18,14 +18,14 @@ public class CommonFriendsMapper extends Mapper<Object, Text, UserPair, Text> {
         String[] parts = line.split("\t");
 
         if (parts.length != 2) {
-            return; // Ignore les lignes invalides
+            return;
         }
 
         String user = parts[0];
         String[] friends = parts[1].split(",");
         Set<String> friendSet = new HashSet<>(Arrays.asList(friends));
 
-        // Émettre toutes les paires de relations communes
+
         for (String friend1 : friends) {
             for (String friend2 : friends) {
                 if (!friend1.equals(friend2)) {
@@ -35,7 +35,6 @@ public class CommonFriendsMapper extends Mapper<Object, Text, UserPair, Text> {
             }
         }
 
-        // Propager les relations directes
         for (String friend : friendSet) {
             userPair = new UserPair(user, friend);
             context.write(userPair, new Text("direct"));
