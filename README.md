@@ -1,7 +1,9 @@
 Commandes succéssives à réaliser pour executer les jars :
 
 docker build -t tp_big_data_img ./deploy 
+
 docker run -it --rm -p 8088:8088 -p 9870:9870 -p 9864:9864 -v "$(pwd)\data:/data" -v "$(pwd)\jars:/jars" --name tp_big_data_container tp_big_data_img
+
 docker exec -it tp_big_data_container  bash  
 
 JOB 1 :
